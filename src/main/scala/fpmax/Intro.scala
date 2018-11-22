@@ -18,18 +18,26 @@ object Intro {
 
   /*
    *   Benefits:
+   *      * No hidden state-changes!
+   *      * Inversion of control - the caller has the control over caller
    *      * Equational reasoning
    *      * Refactor without worry
-   *      * Inversion of control - the caller has the control over caller
-   *      * Type based reasoning
    *      * Easier tests
+   *      * Type based reasoning
    */
 
   object Examples {
-    def printLn(line: String): Unit     = ???
-    def readLn(): String                = ???
-    def randomInt(upperBound: Int): Int = ???
+    def function1(input: String): Unit     = ???
+    def function2(): String                = ???
+    def function3(input1: Segment, input2: Segment): Segment = ???
+
+    trait Segment {
+      def union(other: Segment): Segment
+      def intersect(other: Segment): Segment
+    }
   }
+
+
 
   object Examples2 {
     def doSomething1(input: Int): Int = ???
