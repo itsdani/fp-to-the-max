@@ -1,5 +1,5 @@
 package fpmax.app3
-import fpmax.app3.Typclasses.{Chainable, Console, Random}
+import Typclasses.{Chainable, Console, Random}
 import Typclasses.Chainable.ChainableSyntax
 
 import scala.util.Try
