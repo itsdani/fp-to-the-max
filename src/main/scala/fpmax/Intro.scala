@@ -19,11 +19,13 @@ object Intro {
   /*
    *   Benefits:
    *      * No hidden state-changes!
-   *      * Inversion of control - the caller has the control over caller
    *      * Equational reasoning
    *      * Refactor without worry
-   *      * Easier tests
+   *
+   *      * Inversion of control - the caller has the control over caller
+   *
    *      * Type based reasoning
+   *      * Easier tests
    */
 
   object Examples {
@@ -46,7 +48,7 @@ object Intro {
   }
 
   object Examples3 {
-    def doSomething3[A: Number](input: A): A = ???
+    def doSomething3[A: Number](first: A, second: A): A = ???
 
     trait Number[A] {
       def add(first: A, second: A): A
@@ -62,11 +64,9 @@ object Intro {
       }
       implicit val floatInstance: Number[Float] = new Number[Float] {
         override def add(first: Float, second: Float): Float = first + second
-//        override def add(first: Float, second: Int): Float   = first + second
       }
       implicit val doubleInstance: Number[Double] = new Number[Double] {
         override def add(first: Double, second: Double): Double = first + second
-//        override def add(first: Double, second: Int): Double    = first + second
       }
     }
   }
