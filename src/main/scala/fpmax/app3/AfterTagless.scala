@@ -1,8 +1,6 @@
 package fpmax.app3
-
-
-import fpmax.app3.TypeClasses.{Chainable, Console, Random}
-import fpmax.app3.TypeClasses.Chainable.ChainableSyntax
+import fpmax.app3.Typclasses.{Chainable, Console, Random}
+import Typclasses.Chainable.ChainableSyntax
 
 import scala.util.Try
 
@@ -23,9 +21,7 @@ object AfterTagless {
     Random[F].generateRandom(upperBound)
 
   def main(args: Array[String]): Unit = {
-    import RecipeInstances.chainableRecipe
-    import RecipeInstances.consoleRecipe
-    import RecipeInstances.randomRecipe
+    import RecipeInstances._
 
     mainRecipe[Recipe]().execute()
   }

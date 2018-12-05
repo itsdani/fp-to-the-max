@@ -1,7 +1,6 @@
 package fpmax.app3
-
 import fpmax.app3.AfterTagless.Recipe
-import fpmax.app3.TypeClasses.{Chainable, Console, Random}
+import fpmax.app3.Typclasses.{Chainable, Console, Random}
 
 import scala.io.StdIn.readLine
 
