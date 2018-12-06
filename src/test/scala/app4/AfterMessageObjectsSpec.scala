@@ -1,39 +1,55 @@
 package app4
 
-import fpmax.app4.{AfterMessageObjects, TestData, TestIO}
+import fpmax.app4.{ AfterMessageObjects, TestData, TestIO }
 import fpmax.app4.ConsoleMessage._
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.{ Matchers, WordSpec }
 
 class AfterMessageObjectsSpec extends WordSpec with Matchers {
-  "AfterTagless version of the app" when {
-    "used with a TestIO" should {
-      "be easily testable" in {
-        import fpmax.app4.TestIOInstances._
+  import fpmax.app4.TestIOInstances._
 
+  "The program" when {
+    "the guess is correct" should {
+      "congratulate the player" in {
         val playerName = "bob"
         val testData = TestData(
-          List(playerName, "2", "y", "4", "n"),
+          List(playerName, "3", "n"),
           List(),
-          List(2, 3)
+          List(2)
         )
 
-        val result = AfterMessageObjects.mainRecipe[TestIO]().execute(testData)
+        val (testResult, _) = AfterMessageObjects.mainRecipe[TestIO]().execute(testData)
 
-        result match {
-          case (resultTestData, _) => {
-            resultTestData.output.reverse shouldBe List(
-              WhatIsYourName,
-              WelcomeToGame(playerName),
-              PleaseGuess(playerName),
-              YouGuessedWrong(playerName, 3),
-              DoYouWantToContinue(playerName),
-              PleaseGuess(playerName),
-              YouGuessedRight(playerName),
-              DoYouWantToContinue(playerName)
-            )
-          }
-        }
+        testResult.output.reverse shouldBe List(
+          WhatIsYourName,
+          WelcomeToGame(playerName),
+          PleaseGuess(playerName),
+          YouGuessedRight(playerName),
+          DoYouWantToContinue(playerName)
+        )
+      }
+    }
 
+    "the guess is incorrect" should {
+      "display wrong guess message" in {
+        val playerName   = "bob"
+        val randomNumber = 2
+        val solution     = randomNumber + 1
+
+        val testData = TestData(
+          List(playerName, "1", "n"),
+          List(),
+          List(randomNumber)
+        )
+
+        val (testResult, _) = AfterMessageObjects.mainRecipe[TestIO]().execute(testData)
+
+        testResult.output.reverse shouldBe List(
+          WhatIsYourName,
+          WelcomeToGame(playerName),
+          PleaseGuess(playerName),
+          YouGuessedWrong(playerName, solution),
+          DoYouWantToContinue(playerName)
+        )
       }
     }
   }
