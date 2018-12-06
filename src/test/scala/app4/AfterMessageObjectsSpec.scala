@@ -5,8 +5,6 @@ import fpmax.app4.ConsoleMessage._
 import org.scalatest.{ Matchers, WordSpec }
 
 class AfterMessageObjectsSpec extends WordSpec with Matchers {
-  import fpmax.app4.TestIOInstances._
-
   "The program" when {
     "the guess is correct" should {
       "congratulate the player" in {

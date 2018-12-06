@@ -1,11 +1,12 @@
 package fpmax.app4
 
-import AfterMessageObjects.Recipe
-import Typclasses.{Chainable, Console, Random}
+import Typeclasses.{Chainable, Console, Random}
 
 import scala.io.StdIn.readLine
 
-object RecipeInstances {
+case class Recipe[A](execute: () => A)
+
+object Recipe {
 
   implicit val chainableRecipe: Chainable[Recipe] = new Chainable[Recipe] {
     override def create[A](a: A): Recipe[A] =

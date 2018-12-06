@@ -1,6 +1,6 @@
 package fpmax.app4
 
-object Typclasses {
+object Typeclasses {
 
   trait Chainable[F[_]] {
     def create[A](a: A): F[A]
@@ -12,10 +12,10 @@ object Typclasses {
 
   object Chainable {
 
-    // Chainable[Recipe].map(...)
+    // syntax for Chainable[Recipe].map(...)
     def apply[F[_]](implicit instance: Chainable[F]): Chainable[F] = instance
 
-    // recipe.flatMap(...)
+    // extension method syntax for recipe.flatMap(...)
     implicit class ChainableSyntax[F[_]: Chainable, A](input: F[A]) {
       def map[B](f: A => B): F[B] = Chainable[F].map(input, f)
 

@@ -1,17 +1,30 @@
 package fpmax.app4
-
-case class TestData(input: List[String], output: List[ConsoleMessage], randoms: List[Int]) { self =>
-  def nextInput(): (TestData, String) =
-    (self.copy(input = self.input.drop(1)), self.input.head)
-
-  def nextRandom(): (TestData, Int) =
-    (self.copy(randoms = self.randoms.drop(1)), self.randoms.head)
-
-  def newOutput(line: ConsoleMessage): (TestData, Unit) =
-    (self.copy(output = line :: self.output), ())
-
-  def showOutputs(): String =
-    output.map(_.en).reverse.mkString("\n")
-}
+import Typeclasses.{Chainable, Console, Random}
 
 case class TestIO[A](execute: TestData => (TestData, A))
+
+object TestIO {
+  implicit val chainableTestIO: Chainable[TestIO] = new Chainable[TestIO] {
+    override def create[A](a: A): TestIO[A] =
+      TestIO(testData => (testData, a))
+
+    override def map[A, B](fa: TestIO[A], f: A => B): TestIO[B] =
+      TestIO(testData => fa.execute(testData) match { case (t, a) => (t, f(a)) })
+
+    override def flatMap[A, B](fa: TestIO[A], f: A => TestIO[B]): TestIO[B] =
+      TestIO(testdata => fa.execute(testdata) match { case (t, a) => f(a).execute(t) })
+  }
+
+  implicit val consoleTestIO: Console[TestIO] = new Console[TestIO] {
+    override def putLine(line: ConsoleMessage): TestIO[Unit] =
+      TestIO(testdata => testdata.newOutput(line))
+
+    override def getLine(): TestIO[String] =
+      TestIO(testdata => testdata.nextInput())
+  }
+
+  implicit val randomTestIO: Random[TestIO] = new Random[TestIO] {
+    override def generateRandom(upperBound: Int): TestIO[Int] =
+      TestIO(testdata => testdata.nextRandom())
+  }
+}

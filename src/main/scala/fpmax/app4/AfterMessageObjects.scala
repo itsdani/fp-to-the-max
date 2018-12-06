@@ -1,14 +1,12 @@
 package fpmax.app4
 
-import Typclasses.{ Chainable, Console, Random }
-import Typclasses.Chainable.ChainableSyntax
+import Typeclasses.{ Chainable, Console, Random }
+import Typeclasses.Chainable.ChainableSyntax
 import ConsoleMessage._
 
 import scala.util.Try
 
 object AfterMessageObjects {
-
-  case class Recipe[A](execute: () => A)
 
   def parseInt(input: String): Option[Int] =
     Try { input.toInt }.toOption
@@ -23,8 +21,6 @@ object AfterMessageObjects {
     Random[F].generateRandom(upperBound)
 
   def main(args: Array[String]): Unit = {
-    import RecipeInstances._
-
     mainRecipe[Recipe]().execute()
   }
 
